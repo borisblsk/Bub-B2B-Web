@@ -32,16 +32,11 @@ export default function Login() {
   return (
     <div className="bg-gradient-elevated min-h-screen w-full relative flex flex-col">
       {/* Background coins illustration */}
-      <div
-        className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none"
-      >
-        <img
-          src={coinsBg}
-          alt=""
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40 object-cover"
-          style={{ width: 1334, height: 1777 }}
-        />
-      </div>
+      <img
+        src={coinsBg}
+        alt=""
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[80vw] max-h-[80vh] object-contain opacity-60 pointer-events-none"
+      />
 
       {/* Content */}
       <div className="flex flex-col flex-1 px-xl pt-xl pb-5xl relative">
