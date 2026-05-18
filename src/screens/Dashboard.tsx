@@ -423,7 +423,7 @@ function DashboardSidebar() {
             <p className="text-body-m text-foreground-primary-faded-subtle">Complete a few easy steps to get your account up and running</p>
           </div>
         </div>
-        <Button variant="secondary" size="default" className="w-full">Button</Button>
+        <Button variant="secondary" size="default" className="w-full">Finish setup</Button>
       </div>
 
       {/* Promo Banner */}
