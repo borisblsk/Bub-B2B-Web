@@ -1,3 +1,21 @@
+// =====================================================================
+// COMPONENT LIBRARY STATUS — 2026-05-14
+//
+// Shipped:
+//   Navs: NavBarButton, NavBar, SwipePagination, Header, ActionFooter, SideBar
+//   Tables: TableHeaderCell, TableCell, TableRow + composed demos
+//   Cards: CardMin, CardMax
+//
+// Deferred:
+//   Modals: ModalMin, ModalMax, Drawer — components built, triggers do not fire
+//     onClick. Diagnose with React DevTools open from start tomorrow.
+//
+// Known TODOs:
+//   - NavBarButton showcase active-cell visual (works in real NavBar usage)
+//   - Button small height: 36px vs Figma's 40px in some contexts
+//   - Tables hover bg bleed: not exactly 8px (cosmetic)
+// =====================================================================
+
 import { useState } from 'react'
 import Button from './components/Button'
 import Input from './components/Input'
@@ -31,6 +49,20 @@ import CalloutElevated from './components/CalloutElevated'
 import Delta from './components/Delta'
 import ProgressBar from './components/ProgressBar'
 import Stepper from './components/Stepper'
+import NavBarButton from './components/NavBarButton'
+import NavBar from './components/NavBar'
+import SwipePagination from './components/SwipePagination'
+import Header from './components/Header'
+import ActionFooter from './components/ActionFooter'
+import SideBar from './components/SideBar'
+import TableHeaderCell from './components/TableHeaderCell'
+import TableCell from './components/TableCell'
+import TableRow from './components/TableRow'
+import CardMin from './components/CardMin'
+import CardMax from './components/CardMax'
+import ModalMin from './components/ModalMin'
+import ModalMax from './components/ModalMax'
+import Drawer from './components/Drawer'
 import { Icon } from './components/icons'
 import { AddIcon, ArrowRightIcon, SendIcon, ArrowUpIcon, SearchIcon, EyeIcon, DollarCircleIcon, ArrowDownIcon } from './components/icons'
 
@@ -92,6 +124,11 @@ function App() {
   const [listToggle, setListToggle] = useState(false)
   const [listRadio, setListRadio] = useState('')
   const [progress, setProgress] = useState(50)
+  const [modalMinOpen, setModalMinOpen] = useState(false)
+  const [modalMinBackOpen, setModalMinBackOpen] = useState(false)
+  const [modalMaxOpen, setModalMaxOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerTitle2Open, setDrawerTitle2Open] = useState(false)
 
   return (
     <div className="min-h-screen bg-background-page p-3xl font-sans text-foreground-primary">
@@ -1225,6 +1262,447 @@ function App() {
         </div>
       </Section>
 
+      {/* ═══ NAVS ═══ */}
+      <h1 className="text-heading-l font-bold mb-3xl mt-3xl">Navs</h1>
+
+      {/* TODO: active cell renders without bg-background-base in showcase only — works correctly in NavBar real usage (Home pill, Settings Profile sub-item). Defer. */}
+      <Section title="NavBarButton">
+        <div className="flex flex-col gap-xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Default variant — 3 states</p>
+            <div className="flex items-center gap-m">
+              <NavBarButton icon={<Icon name="home" />}>Home</NavBarButton>
+              <NavBarButton icon={<Icon name="home" />} className="bg-background-base">Home (hover)</NavBarButton>
+              <NavBarButton icon={<Icon name="home" />} active>Home (active)</NavBarButton>
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Secondary variant — 3 states</p>
+            <div className="flex items-center gap-m">
+              <NavBarButton variant="secondary">Profile</NavBarButton>
+              <NavBarButton variant="secondary" className="bg-background-base">Profile (hover)</NavBarButton>
+              <NavBarButton variant="secondary" active>Profile (active)</NavBarButton>
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Interactive — click to toggle active</p>
+            <div className="flex flex-col gap-xxs items-start">
+              {(['home', 'bank', 'card', 'transaction-arrows', 'briefcase'] as const).map(name => (
+                <NavBarButton key={name} icon={<Icon name={name} />}>{name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ')}</NavBarButton>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="NavBar">
+        <div className="flex flex-wrap gap-3xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Default variant</p>
+            <div className="bg-background-neutral rounded-s p-m" style={{ width: 244 }}>
+              <NavBar
+                variant="default"
+                items={[
+                  { key: 'home', label: 'Home', icon: <Icon name="home" />, active: true },
+                  { key: 'accounts', label: 'Accounts', icon: <Icon name="bank" /> },
+                  { key: 'cards', label: 'Cards', icon: <Icon name="card" /> },
+                  { key: 'transactions', label: 'Transactions', icon: <Icon name="arrow-swap" /> },
+                  { key: 'payments', label: 'Payments', icon: <Icon name="money-change" />, hasChevron: true },
+                ]}
+              />
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Settings variant</p>
+            <div className="bg-background-neutral rounded-s p-m" style={{ width: 244 }}>
+              <NavBar
+                variant="settings"
+                onBack={() => console.log('Back clicked')}
+                sections={[
+                  {
+                    key: 'company',
+                    label: 'Company',
+                    icon: <Icon name="briefcase" />,
+                    items: [
+                      { key: 'profile', label: 'Profile', active: true },
+                      { key: 'security', label: 'Security' },
+                      { key: 'notifications', label: 'Notifications' },
+                    ],
+                  },
+                  {
+                    key: 'personal',
+                    label: 'Personal',
+                    icon: <Icon name="user" />,
+                    items: [
+                      { key: 'profile', label: 'Profile' },
+                      { key: 'security', label: 'Security' },
+                      { key: 'notifications', label: 'Notifications' },
+                    ],
+                  },
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="SwipePagination">
+        <div className="flex flex-col gap-m">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">All 5 active positions</p>
+            <div className="flex flex-col gap-xs items-start">
+              {[0, 1, 2, 3, 4].map(i => (
+                <div key={i} className="flex items-center gap-xs">
+                  <span className="text-body-xs text-foreground-primary-faded w-[20px]">{i + 1}</span>
+                  <SwipePagination active={i} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Custom total (3 dots)</p>
+            <SwipePagination total={3} active={1} />
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Header">
+        <div className="flex flex-col gap-xl" style={{ maxWidth: 802 }}>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">With back button</p>
+            <Header
+              title="Transactions"
+              onBack={() => console.log('Back')}
+              onSearch={() => console.log('Search')}
+              onNotification={() => console.log('Notifications')}
+            />
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Without back button</p>
+            <Header
+              title="Dashboard"
+              hasBack={false}
+              onSearch={() => console.log('Search')}
+              onNotification={() => console.log('Notifications')}
+              avatar={<UserAvatar size={36} variant="text" initials="AK" />}
+            />
+          </div>
+        </div>
+      </Section>
+
+      <Section title="ActionFooter">
+        <div className="flex flex-wrap gap-3xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Footer</p>
+            <div className="bg-background-neutral rounded-s p-m" style={{ width: 400 }}>
+              <ActionFooter
+                purpose="footer"
+                caption="Caption"
+                leftButton={<Button variant="transparent" size="small">Cancel</Button>}
+                primaryButton={<Button variant="primary" size="small" className="w-full">Confirm</Button>}
+                rightButton={<Button variant="transparent" size="small">Skip</Button>}
+              />
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Drawer</p>
+            <div className="bg-background-neutral rounded-s p-m" style={{ width: 400 }}>
+              <ActionFooter
+                purpose="drawer"
+                caption="Caption"
+                leftButton={<Button variant="transparent" size="small" className="w-full">Cancel</Button>}
+                primaryButton={<Button variant="primary" size="small" className="w-full">Confirm</Button>}
+                rightButton={<Button variant="transparent" size="small" className="w-full">Skip</Button>}
+              />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="SideBar">
+        <div className="flex gap-xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">SideBar with NavBar inside</p>
+            <div className="border border-border-base rounded-s overflow-clip" style={{ height: 400 }}>
+              <SideBar className="p-m h-full">
+                <NavBar
+                  variant="default"
+                  items={[
+                    { key: 'home', label: 'Home', icon: <Icon name="home" />, active: true },
+                    { key: 'accounts', label: 'Accounts', icon: <Icon name="bank" /> },
+                    { key: 'cards', label: 'Cards', icon: <Icon name="card" /> },
+                  ]}
+                />
+              </SideBar>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ═══ MODALS ═══ */}
+      {/* =====================================================================
+       * MODALS — KNOWN BROKEN
+       * ModalMin, ModalMax, Drawer built. Code review looks correct.
+       * Triggers do not fire onClick — state does not change when clicked.
+       * Confirmed: not variant-specific, not orphan-portal blocking, other Buttons work, console clean.
+       * Defer until tomorrow with fresh investigation (React DevTools from start, possible Strict Mode interaction, minimal reproduction).
+       * ===================================================================== */}
+      <h1 className="text-heading-l font-bold mb-3xl mt-3xl">Modals</h1>
+
+      <Section title="ModalMin">
+        <div className="flex gap-m">
+          <Button variant="secondary" size="small" onClick={() => setModalMinOpen(true)}>Open ModalMin</Button>
+          <Button variant="secondary" size="small" onClick={() => setModalMinBackOpen(true)}>Open ModalMin (with back)</Button>
+        </div>
+        <ModalMin
+          isOpen={modalMinOpen}
+          onClose={() => setModalMinOpen(false)}
+          title="Transfer details"
+        >
+          <div className="flex flex-col gap-m">
+            <p className="text-body-m text-foreground-primary">Review your transfer before confirming.</p>
+            <div className="flex flex-col gap-xs">
+              <div className="flex justify-between text-body-s"><span className="text-foreground-primary-faded">From</span><span className="text-foreground-primary">Checking ****4521</span></div>
+              <div className="flex justify-between text-body-s"><span className="text-foreground-primary-faded">To</span><span className="text-foreground-primary">Savings ****7832</span></div>
+              <div className="flex justify-between text-body-s"><span className="text-foreground-primary-faded">Amount</span><span className="text-foreground-primary font-medium">$1,250.00</span></div>
+            </div>
+          </div>
+        </ModalMin>
+        <ModalMin
+          isOpen={modalMinBackOpen}
+          onClose={() => setModalMinBackOpen(false)}
+          title="Select account"
+          hasBack
+          onBack={() => setModalMinBackOpen(false)}
+        >
+          <p className="text-body-m text-foreground-primary-faded">Modal with back button. Click back or close to dismiss.</p>
+        </ModalMin>
+      </Section>
+
+      <Section title="ModalMax">
+        <div className="flex gap-m">
+          <Button variant="secondary" size="small" onClick={() => setModalMaxOpen(true)}>Open ModalMax</Button>
+        </div>
+        <ModalMax
+          isOpen={modalMaxOpen}
+          onClose={() => setModalMaxOpen(false)}
+          title="Account overview"
+        >
+          <div className="flex flex-col gap-m">
+            <p className="text-body-m text-foreground-primary">This is a large modal (1156×752) for detailed views like account dashboards, transaction history, or settings panels.</p>
+            <p className="text-body-s text-foreground-primary-faded">The content area scrolls independently. Close via the X button, clicking the overlay, or pressing Esc.</p>
+          </div>
+        </ModalMax>
+      </Section>
+
+      <Section title="Drawer">
+        <div className="flex gap-m">
+          <Button variant="secondary" size="small" onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
+          <Button variant="secondary" size="small" onClick={() => setDrawerTitle2Open(true)}>Open Drawer (dual title)</Button>
+        </div>
+        <Drawer
+          isOpen={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          title="Transfer"
+        >
+          <div className="flex flex-col gap-m">
+            <p className="text-body-m text-foreground-primary">Drawer slides in from the right with a 200ms ease-out transition.</p>
+            <p className="text-body-s text-foreground-primary-faded">Close via the X button, overlay click, or Esc key. The slide-out animation plays on close.</p>
+          </div>
+        </Drawer>
+        <Drawer
+          isOpen={drawerTitle2Open}
+          onClose={() => setDrawerTitle2Open(false)}
+          title="Step 1"
+          title2="Recipient"
+          hasBack
+          onBack={() => setDrawerTitle2Open(false)}
+        >
+          <p className="text-body-m text-foreground-primary-faded">Drawer with dual title and back button.</p>
+        </Drawer>
+      </Section>
+
+      {/* ═══ TABLES ═══ */}
+      {/* TODO: Hover bg bleed value not matching spec — should be 8px each side, currently larger.
+       * Likely caused by mix of: incorrect spacing value + header/body column flex-weight mismatch.
+       * Defer — visually acceptable, not blocking. Revisit when doing tokenization audit pass. */}
+      <h1 className="text-heading-l font-bold mb-3xl mt-3xl">Tables</h1>
+
+      <Section title="TableHeaderCell">
+        <table className="border-collapse" style={{ width: 600 }}>
+          <thead>
+            <tr className="flex px-xs">
+              <TableHeaderCell label="Date" className="flex-1" />
+              <TableHeaderCell label="To/From" className="flex-1" />
+              <TableHeaderCell label="Amount" className="flex-1" />
+              <TableHeaderCell label="Status" align="center" className="flex-1" />
+              <TableHeaderCell label="Total" align="right" className="flex-1" />
+              <TableHeaderCell label="Notes" sortable={false} className="flex-1" />
+            </tr>
+          </thead>
+        </table>
+      </Section>
+
+      <Section title="TableCell">
+        <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Individual cells with different content types</p>
+        <div className="flex gap-xs items-center" style={{ width: 600 }}>
+          <TableCell className="flex-1 h-[60px] bg-background-neutral rounded-xs">
+            <span className="text-body-m text-foreground-primary">Plain text</span>
+          </TableCell>
+          <TableCell className="flex-1 h-[60px] bg-background-neutral rounded-xs">
+            <div className="flex gap-xs items-center">
+              <BrandAvatar size={24} brand="amazon" />
+              <span className="text-body-m text-foreground-primary">Amazon</span>
+            </div>
+          </TableCell>
+          <TableCell className="flex-1 h-[60px] bg-background-neutral rounded-xs" align="right">
+            <div className="flex gap-xxs">
+              <Badge type="neutral" size="extraSmall" label="4822" />
+              <Badge type="neutral" size="extraSmall" label="USD" />
+            </div>
+          </TableCell>
+        </div>
+      </Section>
+
+      <Section title="TableRow">
+        <div className="flex flex-col gap-xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Default size (h-60) — hover to see row highlight</p>
+            <table style={{ width: 800 }}>
+              <thead>
+                <tr className="flex px-xs">
+                  <TableHeaderCell label="To/From" className="flex-[2]" />
+                  <TableHeaderCell label="Amount" className="flex-1" />
+                  <TableHeaderCell label="Account" className="flex-1" />
+                  <TableHeaderCell label="Method" className="flex-1" />
+                  <TableHeaderCell label="Action" align="right" className="flex-1" />
+                </tr>
+              </thead>
+              <tbody>
+                <TableRow>
+                  <TableCell className="flex-[2]">
+                    <div className="flex gap-xs items-center">
+                      <BrandAvatar size={24} brand="amazon" />
+                      <div className="flex flex-col gap-xxs"><span className="text-body-m text-foreground-primary">Amazon</span><span className="text-body-s text-foreground-primary-faded">Feb 18, 2026</span></div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="flex-1"><span className="text-body-m text-foreground-primary">-$129.90</span></TableCell>
+                  <TableCell className="flex-1"><div className="flex gap-xxs"><Badge type="neutral" size="extraSmall" label="Checking" /><Badge type="neutral" size="extraSmall" label="4822" /></div></TableCell>
+                  <TableCell className="flex-1"><div className="flex gap-xxs items-center"><CardMin size="small" /><span className="text-body-s text-foreground-primary-faded">Visa Virtual</span></div></TableCell>
+                  <TableCell className="flex-1" align="right"><Button size="extraSmall" variant="secondary">+ Add</Button></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="flex-[2]">
+                    <div className="flex gap-xs items-center">
+                      <BrandAvatar size={24} brand="netflix" />
+                      <div className="flex flex-col gap-xxs"><span className="text-body-m text-foreground-primary">Netflix</span><span className="text-body-s text-foreground-primary-faded">Feb 17, 2026</span></div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="flex-1"><span className="text-body-m text-foreground-primary">-$24.99</span></TableCell>
+                  <TableCell className="flex-1"><div className="flex gap-xxs"><Badge type="neutral" size="extraSmall" label="Checking" /><Badge type="neutral" size="extraSmall" label="4822" /></div></TableCell>
+                  <TableCell className="flex-1"><div className="flex gap-xxs items-center"><CardMin size="small" /><span className="text-body-s text-foreground-primary-faded">Visa Virtual</span></div></TableCell>
+                  <TableCell className="flex-1" align="right"><Button size="extraSmall" variant="secondary">+ Add</Button></TableCell>
+                </TableRow>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Small size (h-40)</p>
+            <table style={{ width: 600 }}>
+              <thead>
+                <tr className="flex px-xs">
+                  <TableHeaderCell label="Name" className="flex-[2]" />
+                  <TableHeaderCell label="Status" className="flex-1" />
+                  <TableHeaderCell label="Added" className="flex-1" />
+                  <TableHeaderCell label="Action" align="right" className="flex-1" />
+                </tr>
+              </thead>
+              <tbody>
+                <TableRow size="small">
+                  <TableCell className="flex-[2]"><span className="text-body-m text-foreground-primary">iCloud Keychain</span></TableCell>
+                  <TableCell className="flex-1"><span className="text-body-s text-foreground-primary-faded">Synced</span></TableCell>
+                  <TableCell className="flex-1"><span className="text-body-s text-foreground-primary-faded">Mar 22, 2023</span></TableCell>
+                  <TableCell className="flex-1" align="right"><Button size="extraSmall" variant="secondary">Remove</Button></TableCell>
+                </TableRow>
+                <TableRow size="small">
+                  <TableCell className="flex-[2]"><span className="text-body-m text-foreground-primary">Google Password Manager</span></TableCell>
+                  <TableCell className="flex-1"><span className="text-body-s text-foreground-primary-faded">Synced</span></TableCell>
+                  <TableCell className="flex-1"><span className="text-body-s text-foreground-primary-faded">Sep 14, 2024</span></TableCell>
+                  <TableCell className="flex-1" align="right"><Button size="extraSmall" variant="secondary">Remove</Button></TableCell>
+                </TableRow>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Section>
+
+      {/* ═══ CARDS ═══ */}
+      <h1 className="text-heading-l font-bold mb-3xl mt-3xl">Cards</h1>
+
+      <Section title="CardMin">
+        <div className="flex flex-col gap-m">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Default (56×36) and Small (38×26)</p>
+            <div className="flex items-end gap-m">
+              <CardMin />
+              <CardMin size="small" />
+            </div>
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">With card number</p>
+            <div className="flex items-end gap-m">
+              <CardMin cardNumber="2255" />
+              <CardMin size="small" cardNumber="2255" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="CardMax">
+        <div className="flex flex-wrap gap-xl">
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Default</p>
+            <CardMax
+              cardName="Main Card"
+              companyName="Buburuza EU GmbH."
+              balance="$12,450.00"
+              cardNumber="•• 2255"
+              label="Virtual"
+            />
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Frozen</p>
+            <CardMax
+              cardName="Main Card"
+              companyName="Buburuza EU GmbH."
+              balance="$0.00"
+              cardNumber="•• 4521"
+              isFrozen
+            />
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Back</p>
+            <CardMax
+              back
+              cardNumber="4532 0000 0000 2255"
+              validDate="12 / 28"
+              cvv="000"
+              onCopy={() => console.log('Copy card number')}
+            />
+          </div>
+          <div>
+            <p className="text-body-xs font-medium text-foreground-primary-faded mb-xs">Terminated</p>
+            <CardMax
+              cardName="Main Card"
+              companyName="Buburuza EU GmbH."
+              balance="$0.00"
+              cardNumber="•• 1190"
+              isTerminated
+            />
+          </div>
+        </div>
+      </Section>
+
       {/* ═══ INVENTORY ═══ */}
       <Section title="Build Status">
         <div className="flex flex-col gap-xs" style={{ maxWidth: 600 }}>
@@ -1261,6 +1739,20 @@ function App() {
             { name: 'Delta', status: 'built' },
             { name: 'ProgressBar', status: 'built' },
             { name: 'Stepper', status: 'built' },
+            { name: 'NavBarButton', status: 'built' },
+            { name: 'NavBar', status: 'built' },
+            { name: 'SwipePagination', status: 'built' },
+            { name: 'Header', status: 'built' },
+            { name: 'ActionFooter', status: 'built' },
+            { name: 'SideBar', status: 'built' },
+            { name: 'ModalMin', status: 'built' },
+            { name: 'ModalMax', status: 'built' },
+            { name: 'Drawer', status: 'built' },
+            { name: 'TableHeaderCell', status: 'built' },
+            { name: 'TableCell', status: 'built' },
+            { name: 'TableRow', status: 'built' },
+            { name: 'CardMin', status: 'built' },
+            { name: 'CardMax', status: 'built' },
           ].map((c) => (
             <div key={c.name} className="flex items-center gap-m px-s py-xs rounded-xs bg-background-neutral border border-border-base">
               <span className="inline shrink-0 text-body-s font-medium px-xs py-xxs rounded-xxs bg-background-positive text-foreground-success">

@@ -34,6 +34,9 @@
 - Logos & illustrations: SVG when available, exported via Figma MCP to src/assets/.
 - Photos: WebP format.
 
+## Stacking context convention
+- Components that use absolutely-positioned negative-z pseudo-elements for hover/background effects (e.g. ListItemLayout) must add `isolate` to the parent container. In Tailwind v4, `relative` alone creates a stacking context that traps `-z-10` children behind the page background. `isolate` scopes the stacking context so negative z-index resolves correctly within the component.
+
 ## Workflow
 - Before building, read the Figma frame fully via MCP and confirm structure.
 - After building, list any assumptions made and any tokens added to the config.

@@ -167,15 +167,20 @@ export default {
     fontSize: {
       'heading-l': ['44px', { lineHeight: '52.8px' }],
       'heading-m': ['28px', { lineHeight: '33.6px' }],
-      'heading-s': ['20px', { lineHeight: '24px' }],
+      'heading-s': ['20px', { lineHeight: '20px', letterSpacing: '0.4px' }],
       'heading-xs': ['16px', { lineHeight: '19.2px' }],
-      'body-m': ['14px', { lineHeight: '16.8px' }],
-      'body-s': ['12px', { lineHeight: '14.4px' }],
-      'body-xs': ['10px', { lineHeight: '12px' }],
+      'body-m': ['14px', { lineHeight: '14px', letterSpacing: '0.28px' }],
+      // body-s: Figma defines two named styles at 12px —
+      //   "Body S Md" (65 Medium, lineHeight 100%) for buttons, labels, nav items
+      //   "Body S Rg" (55 Roman, lineHeight 15px) for body copy, subtitles, descriptions
+      // We mirror that split: text-body-s (tight) vs text-body-s-rg (reading).
+      'body-s':    ['12px', { lineHeight: '12px', letterSpacing: '0.36px' }],
+      'body-s-rg': ['12px', { lineHeight: '15px', letterSpacing: '0.36px' }],
+      'body-xs': ['10px', { lineHeight: '10px', letterSpacing: '0.2px' }],
       'promo-xl': ['64px', { lineHeight: '76.8px' }],
       'promo-l': ['48px', { lineHeight: '57.6px' }],
       'promo-m': ['32px', { lineHeight: '38.4px' }],
-      'promo-s': ['24px', { lineHeight: '28.8px' }],
+      'promo-s': ['24px', { lineHeight: '24px', letterSpacing: '0px' }],
       'promo-xs': ['16px', { lineHeight: '19.2px' }],
       button: ['12px', { lineHeight: '14.4px' }],
     },
@@ -192,6 +197,11 @@ export default {
         '0px -2px 4px 0px rgba(0,0,0,0.04), 0px 2px 4px 0px rgba(0,0,0,0.03), 0px 7px 7px 0px rgba(0,0,0,0.03), 0px 15px 9px 0px rgba(0,0,0,0.02)',
       card:
         '0px 5px 10px 0px rgba(0,0,0,0.05), 0px 18px 18px 0px rgba(0,0,0,0.04), 0px 41px 24px 0px rgba(0,0,0,0.03)',
+    },
+
+    height: {
+      widget: '240px',
+      'widget-chart': '270px',
     },
   },
 }

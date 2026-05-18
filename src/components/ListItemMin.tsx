@@ -55,7 +55,7 @@ export default function ListItemMin({
   // Compose leading area
   const leadingContent = (leading || card || primary) ? (
     <>
-      {leading && <span className="shrink-0 flex items-center justify-center">{leading}</span>}
+      {leading && <span className="shrink-0 flex items-center justify-center text-foreground-primary-faded-subtle">{leading}</span>}
       {card}
       {primary}
     </>

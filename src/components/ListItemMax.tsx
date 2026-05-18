@@ -63,7 +63,7 @@ export default function ListItemMax({
   // Compose leading area
   const leadingContent = (leading || card || primary) ? (
     <>
-      {leading && <span className="shrink-0 flex items-center justify-center">{leading}</span>}
+      {leading && <span className="shrink-0 flex items-center justify-center text-foreground-primary-faded-subtle">{leading}</span>}
       {card}
       {primary}
     </>
@@ -78,7 +78,7 @@ export default function ListItemMax({
         </div>
       )}
       <div className="flex gap-xxs items-center overflow-clip w-full">
-        <span className="text-body-m font-medium text-foreground-primary whitespace-nowrap truncate">
+        <span className="text-body-s font-medium text-foreground-primary whitespace-nowrap truncate">
           {title}
         </span>
         {chip}
@@ -107,7 +107,7 @@ export default function ListItemMax({
               {rightSubtextTop}
             </span>
           )}
-          <span className="text-body-m font-medium text-foreground-primary text-right">
+          <span className="text-body-s font-medium text-foreground-primary text-right">
             {rightText}
           </span>
           {rightSubtextBottom && (

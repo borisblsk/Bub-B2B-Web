@@ -16,16 +16,19 @@ interface ListItemLayoutProps {
 const sizeConfig = {
   max: {
     minH: 'min-h-[56px]',
+    innerGap: 'gap-s',
     hoverInset: 'inset-y-[-4px] inset-x-[-8px]',
     hoverRadius: 'rounded-s',
   },
   min: {
     minH: 'min-h-[40px]',
+    innerGap: 'gap-xs',
     hoverInset: 'inset-y-[-2px] inset-x-[-8px]',
     hoverRadius: 'rounded-xs',
   },
   compact: {
     minH: 'min-h-[25px]',
+    innerGap: 'gap-s',
     hoverInset: 'inset-y-[-2px] inset-x-[-4px]',
     hoverRadius: 'rounded-xxs',
   },
@@ -61,7 +64,7 @@ export default function ListItemLayout({
   return (
     <div
       className={[
-        'flex gap-xs items-center w-full relative group/row',
+        'flex gap-xs items-center w-full relative isolate group/row',
         containerClasses,
         interactive ? 'cursor-pointer' : '',
         className,
@@ -84,7 +87,7 @@ export default function ListItemLayout({
         />
       )}
 
-      <div className="flex flex-1 gap-s items-center min-w-0">
+      <div className={`flex flex-1 ${cfg.innerGap} items-center min-w-0`}>
         {leading}
         {content}
       </div>

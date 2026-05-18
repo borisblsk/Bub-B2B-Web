@@ -20,7 +20,7 @@ export default function Delta({
   return (
     <div
       className={[
-        'inline-flex items-center justify-center overflow-clip px-xxs py-[1px] rounded-[2px]',
+        'inline-flex items-center justify-center overflow-clip px-xxs py-[1px] rounded-[2px] self-start',
         typeStyles[type],
         className,
       ]

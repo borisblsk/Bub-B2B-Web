@@ -67,8 +67,15 @@ const variantClasses: Record<Variant, { base: string; hover: string; text: strin
 
 const sizeClasses: Record<Size, string> = {
   default: 'min-h-[48px] px-l py-s gap-xs text-body-m',
+  // TODO: Figma labels what it calls "Small" buttons as 40px in some places (e.g., ActionFooter buttons). Our small is 36px. Need to verify across more components (Modal footers, dialog actions, other 3-button rows) before deciding whether to update small to 40px or add a new size variant. Tracking discrepancy.
   small: 'h-[36px] px-m gap-xxs text-body-s',
   extraSmall: 'h-[28px] px-s gap-xxs text-body-s',
+}
+
+const iconOnlySizeClasses: Record<Size, string> = {
+  default: 'size-[48px] p-none',
+  small: 'size-[36px] p-none',
+  extraSmall: 'size-[28px] p-none',
 }
 
 const iconSizeMap: Record<Size, number> = {
@@ -107,8 +114,10 @@ function Spinner({ size, className }: { size: number; className?: string }) {
 
 function renderIcon(icon: ReactNode, size: number): ReactNode {
   if (isValidElement(icon)) {
-    return cloneElement(icon as ReactElement<{ size?: number; color?: string }>, {
+    return cloneElement(icon as ReactElement<{ size?: number; width?: number; height?: number; color?: string }>, {
       size,
+      width: size,
+      height: size,
       color: 'currentColor',
     })
   }
@@ -152,7 +161,7 @@ export default function Button({
         'inline-flex items-center justify-center rounded-full font-medium whitespace-nowrap',
         'cursor-pointer disabled:cursor-not-allowed',
         'transition-colors',
-        sizeClasses[size],
+        iconOnly ? iconOnlySizeClasses[size] : sizeClasses[size],
         bgClass,
         hoverClass,
         textClass,
