@@ -166,7 +166,7 @@ export default {
 
     fontSize: {
       'heading-l': ['44px', { lineHeight: '52.8px' }],
-      'heading-m': ['28px', { lineHeight: '33.6px' }],
+      'heading-m': ['28px', { lineHeight: '34px', letterSpacing: '-0.28px' }],
       'heading-s': ['20px', { lineHeight: '20px', letterSpacing: '0.4px' }],
       'heading-xs': ['16px', { lineHeight: '19.2px' }],
       'body-m': ['14px', { lineHeight: '14px', letterSpacing: '0.28px' }],

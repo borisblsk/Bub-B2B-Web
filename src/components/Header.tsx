@@ -8,6 +8,7 @@ interface HeaderProps {
   onBack?: () => void
   onSearch?: () => void
   onNotification?: () => void
+  onAvatarClick?: () => void
   avatar?: ReactNode
   className?: string
 }
@@ -39,6 +40,7 @@ export default function Header({
   onBack,
   onSearch,
   onNotification,
+  onAvatarClick,
   avatar,
   className,
 }: HeaderProps) {
@@ -75,7 +77,13 @@ export default function Header({
         label="Notifications"
       />
 
-      {avatar ?? <UserAvatar size={36} variant="text" initials="MB" />}
+      {onAvatarClick ? (
+        <button type="button" onClick={onAvatarClick} className="cursor-pointer">
+          {avatar ?? <UserAvatar size={36} variant="text" initials="MB" />}
+        </button>
+      ) : (
+        avatar ?? <UserAvatar size={36} variant="text" initials="MB" />
+      )}
     </div>
   )
 }

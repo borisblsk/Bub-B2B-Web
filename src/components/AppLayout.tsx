@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
+import { type ReactNode, isValidElement, cloneElement } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import NavBar from './NavBar'
 import SideBar from './SideBar'
 import { Icon } from './icons'
+import { useAuth } from '../hooks/useAuth'
 
 const navItems = [
   { key: 'home', label: 'Home', icon: 'home' as const, route: '/' },
@@ -21,6 +22,19 @@ interface AppLayoutProps {
 export default function AppLayout({ header, sidebar, children }: AppLayoutProps) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const { logout } = useAuth()
+
+  function handleLogout() {
+    logout()
+    navigate('/login')
+  }
+
+  // Inject onAvatarClick into the header if it's a Header component
+  const headerWithLogout = isValidElement(header)
+    ? cloneElement(header as React.ReactElement<{ onAvatarClick?: () => void }>, {
+        onAvatarClick: handleLogout,
+      })
+    : header
 
   return (
     <div className="bg-background-page min-h-screen w-full">
@@ -40,7 +54,7 @@ export default function AppLayout({ header, sidebar, children }: AppLayoutProps)
         />
 
         <div className="flex-1 flex flex-col gap-3xl min-w-0">
-          {header}
+          {headerWithLogout}
           {children}
         </div>
 
