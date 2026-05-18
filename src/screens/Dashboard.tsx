@@ -237,7 +237,8 @@ export default function Dashboard() {
             <div className="flex gap-m">
               {/* Total Balance Widget */}
               <Widget
-                className="flex-1 h-widget overflow-hidden"
+                className="flex-1 h-widget"
+                flush
                 title={
                   <WidgetHeader
                     label="Total balance"
@@ -253,7 +254,7 @@ export default function Dashboard() {
               >
                 <div className="flex-1 min-h-0">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={balanceData}>
+                    <AreaChart data={balanceData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                       <defs>
                         <linearGradient id="balanceGrad" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0%" stopColor={BRAND_100} stopOpacity={1} />
@@ -459,7 +460,7 @@ function DashboardSidebar() {
 
       {/* Edit Widgets button */}
       <div className="flex justify-center">
-        <Button variant="tertiary" size="extraSmall" leftIcon={<SettingIcon />}>Button</Button>
+        <Button variant="tertiary" size="extraSmall" leftIcon={<SettingIcon />}>Edit widgets</Button>
       </div>
     </div>
   )

@@ -25,7 +25,7 @@ function CardsSidebar() {
 
       {/* Add widgets button */}
       <div className="flex justify-center">
-        <Button variant="tertiary" size="extraSmall" leftIcon={<AddIcon />}>Button</Button>
+        <Button variant="tertiary" size="extraSmall" leftIcon={<AddIcon />}>Add widgets</Button>
       </div>
     </div>
   )
