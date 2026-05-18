@@ -5,7 +5,7 @@ import SideBar from './SideBar'
 import { Icon } from './icons'
 
 const navItems = [
-  { key: 'home', label: 'Home', icon: 'home' as const, route: '/dashboard' },
+  { key: 'home', label: 'Home', icon: 'home' as const, route: '/' },
   { key: 'accounts', label: 'Accounts', icon: 'bank' as const, route: '/accounts' },
   { key: 'cards', label: 'Cards', icon: 'card' as const, route: '/cards' },
   { key: 'transactions', label: 'Transactions', icon: 'arrow-swap' as const, route: '/transactions' },
